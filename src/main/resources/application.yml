@@ -1,0 +1,70 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  # todo 추후 db 연결
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true # sql 나옴
+    properties:
+      hibernate:
+        format_sql: true #sql 보기 좋게
+        default_batch_fetch_size: 500 # 일대다 컬렉션 조회 시 성능 최적화
+
+    open-in-view: false #영속성 컨텍스트의 생존 범위를 트랜잭션 범위로 한정( service, repository 까지 영속 범위 - 관리자에서는 true로도 많이 씀)
+
+  servlet:
+    multipart:
+      max-file-size: 10MB # 파일 업로드 요청시 하나의 파일을 10MB로 제한
+      max-request-size: 100MB #파일 업로드 요청시 모든 파일 크기의 합을 100MB로 제한
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  level:
+    com.api: debug #openFeign 로그를 보기 위해 debug 설정
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000 #5초 -> 5초가 넘어가면 타임아웃이 발생하기 때문에
+        read-timeout: 5000 #연결은 됐는데 응답이 5초가 지나면 에러발생
+
+kakao:
+  client:
+    id: 837150445c7f19fc99baaf82695d64aa
+    secret: YclebS25jEjvJkdgeS79SmEYr2hqLnQb
+
+token:
+  secret: and0LXRva2VuLXNlY3JldA== # 임의의 문자열
+  access-token-expiration-time: 900000  # 15분 1000(ms) x 60(s) x 15(m)
+  refresh-token-expiration-time: 1209600000 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
+#  refresh-token-expiration-time: 1 # 2주 1000(ms) x 60 (s) x 60(m) x 24(h) x 14(d)
+
+logging:
+  level:
+    com.app: debug #실서에서 메모리 부족현상이 발생하지 않도록 info 레벨로 설정
+
+#jasypt:
+#    password: ${PASSWORD}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+
+
+logging:
+  level:
+    com.app: info #실서에서 메모리 부족현상이 발생하지 않도록 info 레벨로 설정
+
